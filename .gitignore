@@ -1,3 +1,7 @@
 *~
 OBJ/*
 OLD/*
+calcIR
+calcIR_cpu
+calcIR_debug
+calcIR_debugGPU
