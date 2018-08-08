@@ -1,0 +1,9 @@
+calc 2    #0=IR, 1=dists, 2=TAA
+#trajFile nve_5fs.xtc
+trajFile traj_nick.xtc
+
+#outPostfix
+nSample   -1     #0=max, -1=don't reuse
+#timestep 0.01 #ps
+Tavg 0.076
+#T1 0.26 #ps AS2008:0.26, YS2010:0.70
