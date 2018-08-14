@@ -1,7 +1,14 @@
 *~
-OBJ/*
-OLD/*
+OBJ/
+OLD/
 calcIR
 calcIR_cpu
 calcIR_debug
 calcIR_debugGPU
+*.xtc
+*.gro
+NICK/
+results/
+TEST/
+spec
+tcf
