@@ -15,6 +15,10 @@ Input::Input(const string &inputfile) : outPostfix(""),intMethod(0),nSample(-1),
 
   while(getline(file, line))
   {
+    //check if line is empty
+    if (line.empty())
+      continue;
+
     stringstream   linestream(line);
 
     linestream >> key;
