@@ -119,7 +119,7 @@ void Traj::moveM(const float &frac,const int aPerM) {
 //This is inefficient and not meant to be used more than once on a file
 //figure out which water model the trajectory is using
 //0=SPCE, 1=TIP4P, 2=TIP4P2005
-int Traj::getModel() {
+int Traj::getModel() const {
   //1st atom should be O
   //next 2 atoms should be Hs
   rvec O,H1,H2;
@@ -143,11 +143,11 @@ int Traj::getModel() {
   const float SPCEangle = 109.47;
   const float TIP4Pangle = 104.52;
   const float angleTol = 0.1;
-  if ( fabs(angle - SPCEangle) < angleTol )
+  if ( fabs(angle - SPCEangle) < angleTol ) {
     model = 0;
-  else if ( fabs(angle - TIP4Pangle ) < angleTol )
+  } else if ( fabs(angle - TIP4Pangle ) < angleTol ) {
     model = 1;
-  else
+  } else
     return -1;
 
   //distinguish between TIP4P and TIP4P/2005

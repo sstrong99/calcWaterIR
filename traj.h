@@ -32,7 +32,7 @@ public:
   void getBox(rvec &box) const;
   void moveM(const float &frac,const int aPerM);
 
-  int getModel();
+  int getModel() const;
 
 private:
   XDRFILE *trj;   //pointer to file
