@@ -14,6 +14,7 @@ Map(const float &cut,const float &Ddip): cut(cut),Ddip(Ddip),cut2(cut*cut) {};
   virtual float kintra(const float &E1, const float &E2, const float &x1, const float &x2, const float &p1, const float &p2) const = 0;
 
   inline float getcut2() const { return cut2; };  //in nm, convert to A0
+  inline float getcut()  const { return cut; };
   inline float getDdip() const { return Ddip; };
 
 protected:

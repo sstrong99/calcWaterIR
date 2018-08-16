@@ -80,11 +80,19 @@ void CalcW::calcE(const Traj &traj) {
   const rvec *x=traj.getCoords();
   rvec box;
   traj.getBox(box);
+  int ii;
+  float tmpcut=2*mymap->getcut()*A0INV;
+  //check that box is larger than 2*cutoff
+  for (ii=0; ii<DIM; ii++)
+    if (box[ii]<tmpcut) {
+      printf("ERROR: Box is smaller than twice the cutoff\n");
+      exit(EXIT_FAILURE);
+    }
 
   //compute OH vectors and dip locations
   rvec OHtmp;
   float d2,d;
-  int hInd,ii,jj;
+  int hInd,jj;
   rvec *dip=new rvec[nH];  //positions of point dipoles
   for (ii=0; ii<nO; ii++) {
     for (jj=0; jj<2; jj++) { //loop through 2 H on each oxygen
