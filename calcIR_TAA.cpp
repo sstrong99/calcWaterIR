@@ -1,7 +1,7 @@
 #include "calcIR_TAA.h"
 
 CalcIR_TAA::CalcIR_TAA(const Input &inp) :
-  T1(inp.getT1()),xtcfile(inp.getTrajFile().c_str()),timestep(inp.getTimestep())
+  T1(inp.getT1()),xtcfile(inp.getTrajFile()),timestep(inp.getTimestep())
 {
   init(inp.getTavg());
 
@@ -70,7 +70,7 @@ void CalcIR_TAA::loopSamples(const int nSample, const int step)
 void CalcIR_TAA::calcAvg(const int start,float* spec1)
 {
   //initialize
-  Traj traj(xtcfile);
+  Traj traj(xtcfile.c_str());
   traj.skip(start);
 
   CalcW calcW(model,traj.getNatoms(),0.0);
@@ -152,7 +152,7 @@ void CalcIR_TAA::printResults(string postfix) const {
 
 void CalcIR_TAA::init(const float &Tavg) {
   //initialize trajectory variables
-  InitTraj traj(xtcfile);
+  InitTraj traj(xtcfile.c_str());
   dt_skip=traj.adjustTimestep(timestep);
   timestep=traj.getDT();
   nT=traj.getNT();

@@ -26,7 +26,7 @@ private:
   int nTavg;
   int N;  //number of frequency points
 
-  const char *xtcfile;
+  const string xtcfile;
   int model;
 
   float *spectrum;
@@ -43,7 +43,6 @@ private:
 
   //for debugging
   PrintDebug prnt;
-  //TODO: make PrintDebug static, only one instance in program
 };
 
 #endif
