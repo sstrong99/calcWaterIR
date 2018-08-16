@@ -28,7 +28,7 @@ public:
 private:
   const float T1;
 
-  const char *xtcfile;
+  const string xtcfile;
   int integrator,model;
 
   float *spectrum;

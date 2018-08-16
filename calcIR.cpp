@@ -5,7 +5,7 @@ extern "C" {
 }
 
 CalcIR::CalcIR(const Input &inp) :
-  T1(inp.getT1()),xtcfile(inp.getTrajFile().c_str()),
+  T1(inp.getT1()),xtcfile((inp.getTrajFile())),
   integrator(inp.getIntMethod()),timestep(inp.getTimestep()),
   nTCF(inp.getNtcf()),avgF(inp.getAvgF())
 {
@@ -90,7 +90,7 @@ void CalcIR::loopSamples(const int nSample, const int step)
 void CalcIR::calcTCF(const int start,cpx* corr1)
 {
   //initialize
-  Traj traj(xtcfile);
+  Traj traj(xtcfile.c_str());
   traj.skip(start);
 
   CalcW calcW(model,traj.getNatoms(),avgF);
@@ -239,7 +239,7 @@ void CalcIR::printResults(string postfix) const {
 }
 
 void CalcIR::init() {
-  InitTraj traj(xtcfile);
+  InitTraj traj(xtcfile.c_str());
   dt_skip=traj.adjustTimestep(timestep);
   timestep=traj.getDT();
   nT=traj.getNT();
