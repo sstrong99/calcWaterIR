@@ -201,9 +201,8 @@ cpx CalcIR::sumMFM(const rvec *m0,const rvec *m,const cpx *F) {
       //sum += F[jj+ii*nH] * (float) (m0[ii][0] * m[jj][0]);
       sum += F[jj+ii*nH] * (float) dot(m0[ii],m[jj]);
     }
-  return sum;
-  //TODO: I changed this to match, nick, but I think it should be 1/3
-  //return sum/((float) DIM);  //average over 3 dims
+  //NOTE: Nick's code doesn't divide by 3
+  return sum/((float) DIM);  //average over 3 dims
 }
 
 float CalcIR::norm(const cpx *mat)
