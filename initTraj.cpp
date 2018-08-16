@@ -55,5 +55,5 @@ int InitTraj::adjustTimestep(const float &new_dt) {
 }
 
 void InitTraj::printModel() {
-  printf("Using %s model\n",modelString().c_str());
+  printf("%d %s water molecules\n",nH/2,modelString().c_str());
 }
