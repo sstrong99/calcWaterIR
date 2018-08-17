@@ -31,7 +31,6 @@ public:
 
 private:
   void calcE(const Traj &traj);
-  void calcE_wrong(const Traj &traj);
   void mapE2W(rvec *m);
 
   inline void setNN(float *M, const float val, const int nn, const int mm)
