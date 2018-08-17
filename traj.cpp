@@ -63,7 +63,14 @@ float Traj::allT()
 
   nT--; //for last timestep that wasn't read
 
-  return dtsum/((float) nT-1);
+  //round dt to nearest tenth of a fs
+  float dtavg=dtsum*10000/((float) nT-1);
+  if (dtavg < 1.0) {
+    printf("ERROR: the code only works with dt>0.1 fs.\n");
+    exit(EXIT_FAILURE);
+  }
+
+  return round(dtavg)/10000;
 }
 
 void Traj::skip(const int n)
