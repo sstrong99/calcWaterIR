@@ -40,7 +40,7 @@ void Calculation::print(const char *filename, const float *x, const float *y, co
 {
   FILE *myfile = fopen(filename,"w");
   for (int ii=0; ii<sz; ii++)
-    fprintf(myfile,"%f %f\n",x[ii],y[ii]);
+    fprintf(myfile,"%.5e %.5e\n",x[ii],y[ii]);
   fclose(myfile);
 }
 
@@ -48,6 +48,6 @@ void Calculation::print(const char *filename, const float *x, const float *y1, c
 {
   FILE *myfile = fopen(filename,"w");
   for (int ii=0; ii<sz; ii++)
-    fprintf(myfile,"%f %f %f\n",x[ii],y1[ii],y2[ii]);
+    fprintf(myfile,"%.5e %.5e %.5e\n",x[ii],y1[ii],y2[ii]);
   fclose(myfile);
 }
