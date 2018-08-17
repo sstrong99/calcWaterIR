@@ -77,8 +77,8 @@ void CalcIR::loopSamples(const int nSample, const int step)
     for (ii=0; ii<nSample; ii++)
       sum+=corr[ii][jj];
 
+    //NOTE: Nick's code doesnt normalize by nSample until after printing TCF
     avgCorr[jj]=sum * exp(-jj*timestep/T1x2) / ((float) nSample);
-    //avgCorr[jj]=sum / ((float) nSample);
   }
 
   for (uint kk=0; kk<corr.size(); kk++)
@@ -148,7 +148,6 @@ void CalcIR::calcTCF(const int start,cpx* corr1)
 void CalcIR::calcFFT(cpx *y)
 {
   int ii;
-
   //pad y with zeros
   //mult input by (-1)^ii to put zero freq at center
   N = nextPow2(nTCF)*4; //can add more zeros to interpolate more finely
@@ -202,7 +201,8 @@ cpx CalcIR::sumMFM(const rvec *m0,const rvec *m,const cpx *F) {
       sum += F[jj+ii*nH] * (float) dot(m0[ii],m[jj]);
     }
   //NOTE: Nick's code doesn't divide by 3
-  return sum/((float) DIM);  //average over 3 dims
+  //return sum/((float) DIM);  //average over 3 dims
+  return sum;
 }
 
 float CalcIR::norm(const cpx *mat)
@@ -240,7 +240,7 @@ void CalcIR::printResults(string postfix) const {
 void CalcIR::init() {
   InitTraj traj(xtcfile.c_str());
   dt_skip=traj.adjustTimestep(timestep);
-  timestep=traj.getDT();
+  timestep=traj.getDT();  //this is the adjusted timestep, not the original
   nT=traj.getNT();
   model = traj.getModel();
   nH=traj.getNH();
@@ -256,7 +256,7 @@ void CalcIR::init() {
   if (nTCF == 0)
     nTCF=(int) (T1 * 6 / timestep);
   if (nTCF < 2) {
-    printf("ERROR: T1 = %f is wrong\n",T1);
+    printf("ERROR: T1 = %f is bad\n",T1);
     exit(EXIT_FAILURE);
   }
 
