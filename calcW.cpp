@@ -142,10 +142,10 @@ void CalcW::calcE(const Traj &traj) {
 	for (kk=1; kk<aPerM; kk++) { //loop through other atoms
 	  addRvec(hiv,x[jj*aPerM+kk],vec,-1); //points from other to H
 	  pbc(vec,box);
-	  d2=norm2vec(vec);
-	  d=sqrt(d2)*A0INV;
+	  multRvec(vec,A0INV);
+	  d=sqrt(norm2vec(vec));
 
-	  multRvec(vec, charges[kk]*A0INV/(d*d*d));
+	  multRvec(vec, charges[kk]/(d*d*d));
 	  addRvec(vec,tmpEi,+1);
 	}
       }
