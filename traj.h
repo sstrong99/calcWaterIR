@@ -13,7 +13,7 @@
 
 //#define A0INV 18.89726125    //inverse bohr radius (nm/a0)
 #define A0INV 18.8973         //inverse bohr radius (nm/a0)
-#define PI 3.14159265
+#define PI 3.14159265359
 
 using namespace std;
 class Traj
