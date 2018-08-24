@@ -1,16 +1,29 @@
+#On Midway, first load modules:
+#module load gcc/4.8 cuda/8.0 mkl/2017
+
 exe     = calcIR
 CXX     = g++
 NVCC    = nvcc
-INC     = -I/usr/local/include/xdrfile
 
-#MMD and MP generate .d files
+HOST=$(shell hostname)
+ifeq ($(HOST),midway*)
+	SOFTDIR=/home/strong1/install
+else
+	SOFTDIR=/usr/local
+endif
+$(info $$SOFTDIR is [${SOFTDIR}])
+
+CUDAROOT?=$(CUDADIR)
+
+INC     = -I$(SOFTDIR)/include/xdrfile -I$(MKLROOT)/include
 FLAGS	= -O2 -march=native -Wall -std=c++11 -MMD -MP -fopenmp -DUSEOMP
 DEBUGFLAGS = -g -std=c++11 -Wall -fopenmp -MMD -MP #-DUSEOMP #-DDEBUG -pg
 LIBS    = -lxdrfile -lfftw3f -lm -llapack -lblas -ldl -lgomp -lpthread
-LIBDIRS =
-GPUINC  = -I/usr/local/magma/include -I/usr/local/cuda/include
-GPULIBS = -L/usr/local/magma/lib -lmagma -Xcompiler "-fopenmp"
+LIBDIRS = -L$(SOFTDIR)/lib -L$(SOFTDIR)/magma/lib
+GPUINC  = -I$(SOFTDIR)/magma/include -I$(CUDAROOT)/include $(INC)
+GPULIBS = -lmagma -Xcompiler "-fopenmp" $(LIBS)
 
+#MMD and MP generate .d files
 OBJ_DIR = OBJ
 SRCS  = main.cpp traj.cpp calcIR.cpp integrateF.cpp adamsBashforth.cpp exactDiag.cpp printDebug.cpp timer.cpp histogram.cpp calcDists.cpp calcW.cpp initTraj.cpp input.cpp calcIR_TAA.cpp calculation.cpp
 
@@ -39,9 +52,9 @@ all: gpu dgpu cpu debug
 $(execpu): $(OBJS)
 	$(CXX) $(FLAGS) -o $(execpu) $^ $(LIBDIRS) $(LIBS)
 $(exeg): $(OBJS_GPU)
-	$(NVCC) -Xcompiler "$(FLAGS)" -o $(exeg) $^ $(LIBDIRS) $(LIBS) $(GPULIBS)
+	$(NVCC) -Xcompiler "$(FLAGS)" -o $(exeg) $^ $(LIBDIRS) $(GPULIBS)
 $(exedg): $(OBJS_DGPU)
-	$(NVCC) -G -Xcompiler "$(DEBUGFLAGS)" -o $(exedg) $^ $(LIBDIRS) $(LIBS) $(GPULIBS)
+	$(NVCC) -G -Xcompiler "$(DEBUGFLAGS)" -o $(exedg) $^ $(LIBDIRS) $(GPULIBS)
 $(exed): $(OBJS_DEBUG)
 	$(CXX) $(DEBUGFLAGS) -o $(exed) $^ $(LIBDIRS) $(LIBS)
 
@@ -51,10 +64,10 @@ $(OBJ_DIR)/%.o: %.cpp
 	$(CXX) $(INC) $(FLAGS) -c -o $@ $<
 $(OBJ_DIR)/%_g.o: %.cpp
 	mkdir -p $(dir $@)
-	$(NVCC) $(INC) $(GPUINC) -Xcompiler "$(FLAGS)" -DUSEGPU -c -o $@ $<
+	$(NVCC) $(GPUINC) -Xcompiler "$(FLAGS)" -DUSEGPU -c -o $@ $<
 $(OBJ_DIR)/%_dg.o: %.cpp
 	mkdir -p $(dir $@)
-	$(NVCC) $(INC) $(GPUINC) -Xcompiler "$(DEBUGFLAGS)" -DUSEGPU -c -o $@ $<
+	$(NVCC) $(GPUINC) -Xcompiler "$(DEBUGFLAGS)" -DUSEGPU -c -o $@ $<
 $(OBJ_DIR)/%_d.o: %.cpp
 	mkdir -p $(dir $@)
 	$(CXX) $(INC) $(DEBUGFLAGS) -c -o $@ $<
