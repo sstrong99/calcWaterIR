@@ -75,13 +75,13 @@ void CalcW::compute(Traj &traj, rvec *m) {
 //This is slower than calcE, and only calculates the E-field at the H atom
 //not the dipole-dipole term
 void CalcW::calcE(const Traj &traj) {
-  float cut2=mymap->getcut2(); //*A0INV*A0INV;
-  float Ddip=mymap->getDdip(); //*A0INV;
+  float cut2=mymap->getcut2()*A0INV*A0INV;
+  float Ddip=mymap->getDdip()*A0INV;
   const rvec *x=traj.getCoords();
   rvec box;
   traj.getBox(box);
   int ii;
-  float tmpcut=2*mymap->getcut(); //*A0INV;
+  float tmpcut=2*mymap->getcut()*A0INV;
   //check that box is larger than 2*cutoff
   for (ii=0; ii<DIM; ii++)
     if (box[ii]<tmpcut) {
@@ -142,7 +142,6 @@ void CalcW::calcE(const Traj &traj) {
 	for (kk=1; kk<aPerM; kk++) { //loop through other atoms
 	  addRvec(hiv,x[jj*aPerM+kk],vec,-1); //points from other to H
 	  pbc(vec,box);
-	  multRvec(vec,A0INV);
 	  d=sqrt(norm2vec(vec));
 
 	  multRvec(vec, charges[kk]/(d*d*d));
