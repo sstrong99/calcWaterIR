@@ -24,8 +24,6 @@ AdamsBashforth::~AdamsBashforth()
 
 void AdamsBashforth::next(cpx *F,const float *wMat)
 {
-  using namespace std::complex_literals;
-
   //calculate next iFw, and store it
   //multipy Flast with wMat
   cpx tmpout;
@@ -38,7 +36,7 @@ void AdamsBashforth::next(cpx *F,const float *wMat)
 	tmpout += wMat[kk+ii*nH] * F[jj+kk*nH];
 	//tmpout += F[kk+ii*nH] * wMat[jj+kk*nH];
       }
-      iFw[nextInd][jj+ii*nH]=tmpout*1if*dt;
+      iFw[nextInd][jj+ii*nH]=tmpout*pureIm*dt;
     }
   //check if have enough results to do full order Adams-Bashforth
   if (trunc && nextInd==nprev-1)

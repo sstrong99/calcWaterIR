@@ -194,13 +194,12 @@ void ExactDiag::diag(const float *wMat)
 
 void ExactDiag::propF(cpx *F)
 {
-  using namespace std::complex_literals;
   //multiply diagonal prop matrix by ev^T
   cpx diagEl;
   int jj;
   for (int ii=0; ii<nH; ii++)
   {
-    diagEl=exp(1if*w[ii]*dt);  //dt in ps, w in 1/ps
+    diagEl=exp(pureIm*w[ii]*dt);  //dt in ps, w in 1/ps
     //diagEl=1.0;  //SES tested 6/4/18 that this gives O*O^T = I
     for (jj=0; jj<nH; jj++)
     {

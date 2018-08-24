@@ -4,8 +4,8 @@ NVCC    = nvcc
 INC     = -I/usr/local/include/xdrfile
 
 #MMD and MP generate .d files
-FLAGS	= -O2 -march=native -Wall -std=c++14 -MMD -MP -fopenmp -DUSEOMP
-DEBUGFLAGS = -g -std=c++14 -Wall -fopenmp -MMD -MP #-DUSEOMP #-DDEBUG -pg
+FLAGS	= -O2 -march=native -Wall -std=c++11 -MMD -MP -fopenmp -DUSEOMP
+DEBUGFLAGS = -g -std=c++11 -Wall -fopenmp -MMD -MP #-DUSEOMP #-DDEBUG -pg
 LIBS    = -lxdrfile -lfftw3f -lm -llapack -lblas -ldl -lgomp -lpthread
 LIBDIRS =
 GPUINC  = -I/usr/local/magma/include -I/usr/local/cuda/include

@@ -1,5 +1,7 @@
 #include "integrateF.h"
 
+IntegrateF::IntegrateF() : pureIm(0.0,1.0) {};
+
 //initialize Fw to identity
 void IntegrateF::initF(cpx *F,const int nH)
 {
