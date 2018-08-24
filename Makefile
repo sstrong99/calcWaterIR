@@ -5,13 +5,13 @@ exe     = calcIR
 CXX     = g++
 NVCC    = nvcc
 
-HOST=$(shell hostname)
-ifeq ($(HOST),midway*)
+HOST=$(firstword $(subst -, ,$(shell hostname)))
+ifeq ($(HOST),midway)
 	SOFTDIR=/home/strong1/install
 else
 	SOFTDIR=/usr/local
 endif
-$(info $$SOFTDIR is [${SOFTDIR}])
+## $(info $$SOFTDIR is [${SOFTDIR}])
 
 CUDAROOT?=$(CUDADIR)
 
