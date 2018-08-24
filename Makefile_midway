@@ -4,7 +4,8 @@
 exe     = calcIR
 CXX     = g++
 NVCC    = nvcc
-SOFTDIR = /project/jlskinner/hestand/programs/software
+#SOFTDIR = /project/jlskinner/hestand/programs/software
+SOFTDIR = /home/strong1/install/
 INC     = -I$(SOFTDIR)/include -I/$(SOFTDIR)/include/xdrfile -I$(CUDAROOT)/include -I$(MKLROOT)/include
 
 #MMD and MP generate .d files
