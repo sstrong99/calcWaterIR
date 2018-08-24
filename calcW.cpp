@@ -156,7 +156,7 @@ void CalcW::calcE(const Traj &traj) {
 	  addRvec(dipI,dip[hj],vec,-1);
 	  pbc(vec,box);
 	  d2=norm2vec(vec);
-	  d=sqrt(d2)*A0INV;
+	  d=sqrt(d2);
 	  multRvec(vec,1.0/d);
 	  dipdiptmp=dot(OHi,OH[hj]) - 3*dot(OHi,vec)*dot(OH[hj],vec);
 	  dipdiptmp/=d*d*d;
