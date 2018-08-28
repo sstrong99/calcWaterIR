@@ -128,6 +128,8 @@ void CalcIR::calcTCF(const int start,cpx* corr1)
 	getRvec(m[ii],m0[ii]);
     else
       intF->next(F,calcW.getW());  //integrate F matrix forward one step
+    //integrate F with W matrix at current time, not previous time
+    //Fdot(t) = i F(t) W(t)
 
     //compute correlation function
     corr1[tt]=sumMFM(m0,m,F);
@@ -196,9 +198,12 @@ cpx CalcIR::sumMFM(const rvec *m0,const rvec *m,const cpx *F) {
   //could do as 1d sum, maybe faster
   for (ii=0; ii<nH; ii++)
     for (jj=0; jj<nH; jj++) {
-      //sum += F[jj+ii*nH];
-      //sum += F[jj+ii*nH] * (float) (m0[ii][0] * m[jj][0]);
       sum += F[jj+ii*nH] * (float) dot(m0[ii],m[jj]);
+      //magma handles matricies as col-major, so F is transposed.
+      //instead of transposing, switch m0 and m indicies
+      //if ODE is Fdot=prop F, then should be m0[jj],m[ii],
+      //but I switch the order here
+      //TODO: check that adams-bashforth is compatible with this
     }
   //NOTE: Nick's code doesn't divide by 3
   //return sum/((float) DIM);  //average over 3 dims

@@ -190,6 +190,8 @@ void ExactDiag::diag(const float *wMat)
 #else
   ssyevd_(&vec,&uplo,&nH,evs,&nH,w,work,&lwork,iwork,&liwork,&info);
 #endif
+  //for some reason, the top row of the eigenvector matrix has the opposite
+  //sign as in nick's code, but this doesn't change the results
 }
 
 void ExactDiag::propF(cpx *F)
@@ -203,11 +205,9 @@ void ExactDiag::propF(cpx *F)
     //diagEl=1.0;  //SES tested 6/4/18 that this gives O*O^T = I
     for (jj=0; jj<nH; jj++)
     {
-      //tmp[jj+ii*nH]=0.0;
       tmp[jj+ii*nH]  = evs[jj+ii*nH] * diagEl; //O*e^D
       cevs[jj+ii*nH] = evs[jj+ii*nH]; //automatically assigns to real part
     }
-    //tmp[ii + ii*nH] = diagEl;
   }
 
 #ifdef USEGPU
@@ -217,20 +217,6 @@ void ExactDiag::propF(cpx *F)
   magma_csetmatrix(nH,nH,(mcpx*) cevs,nH,cevs_d,nH,queue);
   magma_csetmatrix(nH,nH,(mcpx*) tmp ,nH,tmp_d ,nH,queue);
 
-/*
-  //if tmp holds diagonal matrix e^D
-  magma_zgemm(MagmaNoTrans,MagmaTrans,nH,nH,nH,
-	      MAGMA_C_ONE,tmp_d,nH,cevs_d,nH,
-	      MAGMA_C_ZERO,prop_d,nH,queue);
-  magma_zgemm(MagmaNoTrans,MagmaNoTrans,nH,nH,nH,
-	      MAGMA_C_ONE,cevs_d,nH,prop_d,nH,
-	      MAGMA_C_ZERO,tmp_d,nH,queue);
-  magma_zgemm(MagmaNoTrans,MagmaNoTrans,nH,nH,nH,
-	      MAGMA_C_ONE,tmp_d,nH,F_d,nH,
-	      MAGMA_C_ZERO,prop_d,nH,queue);
-  magma_zgetmatrix(nH,nH,prop_d,nH,(mcpx*) F,nH,queue);
-*/
-
   //perform multiplications
   //magmablas_zlascl_diag only works with triangluar cevs, not full
   //magmablas_zlascl2 only works with real diagonal matrix, not cpx
@@ -238,11 +224,12 @@ void ExactDiag::propF(cpx *F)
 	      MAGMA_C_ONE,cevs_d,nH,tmp_d,nH,
 	      MAGMA_C_ZERO,prop_d,nH,queue); //(O*e^D)^T = e^D O^T
   magma_cgemm(MagmaNoTrans,MagmaNoTrans,nH,nH,nH,
-	      MAGMA_C_ONE,F_d,nH,prop_d,nH,
+	      MAGMA_C_ONE,prop_d,nH,F_d,nH,
 	      MAGMA_C_ZERO,tmp_d,nH,queue);
 
   //copy F back to CPU memory
-  magma_cgetmatrix(nH,nH,tmp_d,nH,(mcpx*) F,nH,queue);
+  //magma_cgetmatrix(nH,nH,tmp_d,nH,(mcpx*) F,nH,queue);
+  magma_cgetvector(nH2,tmp_d,1,(mcpx*) F,1,queue);
 
   magma_queue_sync(queue);  //is this necessary?
   freeGPUmem();
@@ -259,15 +246,6 @@ void ExactDiag::propF(cpx *F)
 }
 
 #ifdef USEGPU
-void ExactDiag::printMat(const mcpx *mat_d) const
-{
-  cpx *mat = new cpx[nH2];
-  magma_cgetmatrix(nH,nH,mat_d,nH,(mcpx*) mat,nH,queue);
-  magma_queue_sync(queue);
-  prnt.mat(mat);
-  delete[] mat;
-}
-
 void ExactDiag::allocateGPUmem()
 {
   magma_cmalloc(&cevs_d,nH2);
