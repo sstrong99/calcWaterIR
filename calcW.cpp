@@ -108,11 +108,6 @@ void CalcW::calcE(const Traj &traj) {
     }
   }
 
-  //init dipdip to 0
-  //TODO: this should be unecessary
-  for (ii=0; ii<nH*nH; ii++)
-    dipdip[ii]=0.0;
-
   int hi,hj,kk;
   rvec hiv,vec,dipI,OHi,tmpEi;
   float dipdiptmp;
