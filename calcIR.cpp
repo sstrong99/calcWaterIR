@@ -77,7 +77,7 @@ void CalcIR::loopSamples(const int nSample, const int step)
     for (ii=0; ii<nSample; ii++)
       sum+=corr[ii][jj];
 
-    //NOTE: Nick's code doesnt normalize by nSample until after printing TCF
+    //: Nick's code doesnt normalize by nSample until after printing TCF
     avgCorr[jj]=sum * exp(-jj*timestep/T1x2) / ((float) nSample);
   }
 
@@ -206,8 +206,7 @@ cpx CalcIR::sumMFM(const rvec *m0,const rvec *m,const cpx *F) {
       //TODO: check that adams-bashforth is compatible with this
     }
   //NOTE: Nick's code doesn't divide by 3
-  //return sum/((float) DIM);  //average over 3 dims
-  return sum;
+  return sum/((float) DIM);  //average over 3 dims
 }
 
 float CalcIR::norm(const cpx *mat)
