@@ -32,10 +32,13 @@ void AdamsBashforth::next(cpx *F,const float *wMat)
     for (jj=0; jj<nH; jj++)
     {
       tmpout=0.0;
-      for (kk=0; kk<nH; kk++) {
-	tmpout += wMat[kk+ii*nH] * F[jj+kk*nH];
-	//tmpout += F[kk+ii*nH] * wMat[jj+kk*nH];
-      }
+      for (kk=0; kk<nH; kk++)
+	tmpout += F[kk+ii*nH] * wMat[jj+kk*nH];
+      //NOTE: the order of multiplication is different than in exactDiag.cpp
+      //This is because magma uses col-major order, so it implicitely
+      //transposes the matricies. In order to be compatible with the indicies
+      //in calcIR::sumMFM, need to reverse the order here
+
       iFw[nextInd][jj+ii*nH]=tmpout*pureIm*dt;
     }
   //check if have enough results to do full order Adams-Bashforth
