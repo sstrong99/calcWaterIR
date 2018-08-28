@@ -1,7 +1,6 @@
 #ifndef TRAJ_H
 #define TRAJ_H
 
-#include "printDebug.h"
 #include "vecManip.h"
 
 #include <xdrfile_xtc.h>
@@ -49,8 +48,6 @@ private:
   float dt;       //timestep between current step and last
 
   void convert();
-
-  PrintDebug prnt;
 };
 
 #endif

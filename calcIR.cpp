@@ -249,7 +249,6 @@ void CalcIR::init() {
   nT=traj.getNT();
   model = traj.getModel();
   nH=traj.getNH();
-  prnt.setNH(nH);
 
   if (avgF==0.0)
     avgF = traj.getAvgF();

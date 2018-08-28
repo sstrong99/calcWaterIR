@@ -158,7 +158,6 @@ void CalcIR_TAA::init(const float &Tavg) {
   nT=traj.getNT();
   model = traj.getModel();
   nH=traj.getNH();
-  prnt.setNH(nH);
 
   traj.printModel();
 

@@ -5,7 +5,6 @@
 #include "map.h"
 #include "traj.h"
 #include "vecManip.h"
-#include "printDebug.h"
 
 #include <cmath>
 
@@ -42,7 +41,6 @@ private:
   int aPerM; //atoms per molecule
   int nO;
   int nH;
-  PrintDebug prnt; //need to init
 
   float *E;      //scalar Efield at each H, along OH
   rvec *OH;       //OH vectors

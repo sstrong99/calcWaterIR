@@ -48,8 +48,6 @@ CalcW::CalcW(const int model,const int natoms,float avef) : avef(avef) {
   OH     = new rvec[nH];
   dipdip = new float[nH*nH];
   wMat   = new float[nH*nH];
-
-  prnt.setNH(nH);
 }
 
 CalcW::~CalcW() {
@@ -188,8 +186,6 @@ void CalcW::mapE2W(rvec *m) {
   float *mud = new float[nH];
   float *p   = new float[nH];
 
-  //prnt.vec(E);
-
   //compute various map quantities and transition dipoles
   for (ii=0; ii<nH; ii++)
     {
@@ -232,7 +228,6 @@ void CalcW::mapE2W(rvec *m) {
   delete[] p;
 
   //printf("inter,intra= %.1f\t%.1f\n",maxInterFreq(),avgIntraFreq());
-  //prnt.mat(wMat);
 }
 
 float CalcW::maxInterFreq() const {

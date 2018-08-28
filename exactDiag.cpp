@@ -12,7 +12,6 @@ extern "C" {
 ExactDiag::ExactDiag(int nH,const float &dt,const bool vecflag) :
   nH(nH),nH2(nH*nH),dt(dt)
 {
-  prnt.setNH(nH);
 
 //get workspace size for diagonalization
   float tmpwork;
@@ -324,11 +323,7 @@ void ExactDiag::testmult(const float* wMat)
   //dgemm_(&trans,&notrans,&nH,&nH,&nH,&one,evs,&nH,wMat,&nH,&zero,tmp1,&nH);
   //dgemm_(&notrans,&notrans,&nH,&nH,&nH,&one,tmp1,&nH,evs,&nH,&zero,tmp2,&nH);
 
-  //printMat(tmp2);
-  //printVec(w);
-
   sgemm_(&trans,&notrans,&nH,&nH,&nH,&one,evs,&nH,evs,&nH,&zero,tmp1,&nH);
-  prnt.mat(tmp1);
 
   delete[] tmp1;
   delete[] tmp2;

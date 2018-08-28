@@ -5,7 +5,6 @@ Traj::Traj(const char *xtcfile)
 {
   //get number of atoms
   read_xtc_natoms((char*)xtcfile,&natoms);
-  //prnt.setNH(natoms);
 
   //open xtc file
   trj = xdrfile_open(xtcfile,"r");

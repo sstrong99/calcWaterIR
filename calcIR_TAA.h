@@ -40,9 +40,6 @@ private:
   void loopSamples(const int nSample,const int step);
   void calcAvg(const int start, float *spec1);
   inline float lorentz(const float &w);
-
-  //for debugging
-  PrintDebug prnt;
 };
 
 #endif

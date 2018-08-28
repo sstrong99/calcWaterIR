@@ -2,7 +2,6 @@
 #define INTEGRATEF_H
 
 #include "traj.h"
-#include "printDebug.h"
 #include "mycomplex.h"
 
 using namespace std;
@@ -14,7 +13,6 @@ public:
 
   virtual void next(cpx *F,const float* wMat) = 0;
   static void initF(cpx *F,const int nH);
-  PrintDebug prnt;
 
   const cpx pureIm;  //pure imaginary number i
 };

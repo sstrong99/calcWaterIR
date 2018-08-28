@@ -52,8 +52,6 @@ private:
 
   //for debugging
   float norm(const cpx *mat);
-  PrintDebug prnt;
-  //TODO: make PrintDebug static, only one instance in program
 };
 
 #endif
