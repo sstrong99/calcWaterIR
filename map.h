@@ -37,8 +37,9 @@ public:
   inline float p(const float &w) const
   { return 1.611 + w*5.893e-4; };
   inline float kintra(const float &E1, const float &E2, const float &x1, const float &x2, const float &p1, const float &p2) const
-  { return (-1789.0 + 23852.0*(E1+E2))*x1*x2 - 1.966*p1*p2; };
-  //TODO: 1.966 is the value from the paper, it should be 2.508 instead
+  { return (-1789.0 + 23852.0*(E1+E2))*x1*x2 - 2.508*p1*p2; };
+  //In the 2008 paper, the 2.508 is given as 1.966. This is a typo as far as I can tell. 
+  //The number comes from the bond angle of water. It is not a paremter of the map
 };
 
 class MapGruenbaum2013 : public Map {
