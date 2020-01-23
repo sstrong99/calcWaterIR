@@ -1,3 +1,9 @@
+/**
+    calcWaterIR
+    Purpose: calculate the IR spectra of water according to Yang&Skinner 2010 PCCP
+    
+    @author Steven E. Strong
+*/
 #include "calculation.h"
 #include "calcIR.h"
 #include "calcDists.h"
