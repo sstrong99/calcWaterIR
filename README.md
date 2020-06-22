@@ -2,7 +2,7 @@
 
 ## Compiling
 
-To compile, you will need the [xdrfile library](ftp://ftp.gromacs.org/pub/contrib/xdrfile-1.1.4.tar.gz).
+To compile, you will need the xdrfile library from ftp://ftp.gromacs.org/pub/contrib/xdrfile-1.1.4.tar.gz.
 
 To compile for GPUs, you will also need CUDA and the [MAGMA library](https://icl.cs.utk.edu/magma/)
 
@@ -17,9 +17,9 @@ The input script is a list of key-value pairs. The keys are described below.
 The keys are required unless a default is listed, or specified otherwise.
 The "#" symbol is used for comments
 
-    *calc - specifies the type of calculation (default=0)
-        .*0 - calculate the QM transition dipole autocorrelation function "exactly" (within the mixed quantum-classical approximation) by numerical integration of the Schroedinger equation (NISE)
-        .*1 - calculate the distribution of eigenfrequencies
+  *calc - specifies the type of calculation (default=0)
+      .*0 - calculate the QM transition dipole autocorrelation function "exactly" (within the mixed quantum-classical approximation) by numerical integration of the Schroedinger equation (NISE)
+      .*1 - calculate the distribution of eigenfrequencies
         .*2 - calculate the spectrum using the time-averaging approximation (TAA), see e.g. [Auer&Skinner JCP 2008](https://aip.scitation.org/doi/10.1063/1.2925258)
     *trajFile - name of the file with the molecular dynamics trajectory
     *outPostfix - postfix for output files defaults to no postfix
