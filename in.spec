@@ -1,10 +1,9 @@
 calc 0    #0=IR, 1=dists, 2=TAA
-trajFile nve_5fs.xtc
-#trajFile traj_nick.xtc
+trajFile traj.xtc
 
 #outPostfix
 intMethod 0
-nSample   100     #0=max, -1=don't reuse
+nSample   1     #0=max, -1=don't reuse
 #avgF 3415.2   #1/cm
 #timestep 0.01 #ps
 #nTCF 400
