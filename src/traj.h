@@ -3,10 +3,8 @@
 
 #include "vecManip.h"
 
-#include <xdrfile_xtc.h>
-#include <xdrfile.h>
+#include <string>
 #include <cstdlib>
-#include <vector>
 #include <cstdio>
 #include <cmath>
 
@@ -14,14 +12,14 @@
 #define PI 3.14159265359
 
 using namespace std;
-class Traj
-{
+class Traj {
 public:
-  Traj(const char *xtcfile);
-  ~Traj();
-  int next(const bool convertFlag=true);
-  float allT();
-  void skip(const int n);
+  static Traj *getTraj(const string &filename);
+  virtual ~Traj() {};
+  
+  virtual int next(const bool convertFlag=true) = 0;
+  virtual float allT() = 0;
+  virtual void skip(const int n) = 0;
 
   int getNatoms() const {return natoms;};
   int getNT() const {return nT;};
@@ -33,21 +31,16 @@ public:
 
   int getModel() const;
 
-private:
-  XDRFILE *trj;   //pointer to file
+protected:
   int natoms;     //number of atoms
   int nT;         //number of timesteps processed
 
   int step;       //integer timestep
   float t;        //time in ps (units correct?)
-  float prec;     //precision
-  matrix boxT;    //simulation box in raw output
   rvec box;       //simulation box
   rvec *x;        //atom positions
 
   float dt;       //timestep between current step and last
-
-  void convert();
 };
 
 #endif

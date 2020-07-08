@@ -3,7 +3,7 @@
 CalcDists::CalcDists(const Input &inp) :
   Pu_tot(1000,2900,3900),Pc_tot(Pu_tot),spdn_tot(Pu_tot),Pintra_tot(200,-60,10)
 {
-  InitTraj init(inp.getTrajFile().c_str());
+  InitTraj init(inp.getTrajFile());
   int dt_skip=init.adjustTimestep(inp.getTimestep());
   int nT = init.getNT();
   int nSample = inp.getNsample();
@@ -23,10 +23,10 @@ CalcDists::CalcDists(const Input &inp) :
   printf("Computing frequency distributions using %d threads...\n",maxThreads);
 #pragma omp parallel num_threads(maxThreads)
   {
-    Traj traj(inp.getTrajFile().c_str());
-    traj.skip(omp_get_thread_num()*tPerThread);
+    Traj *traj = Traj::getTraj(inp.getTrajFile());
+    traj->skip(omp_get_thread_num()*tPerThread);
 
-    CalcW calcW(model,traj.getNatoms(),0.0);
+    CalcW calcW(model,traj->getNatoms(),0.0);
     int nH=calcW.getNH();
 
     ExactDiag diag(nH,0.0);
@@ -41,7 +41,7 @@ CalcDists::CalcDists(const Input &inp) :
     Histogram Pintra(Pintra_tot);
 
     for (int tt=0; tt<tPerThread; tt++) {
-      traj.next();
+      traj->next();
 
       calcW.compute(traj,m);
       diag.spdn(calcW.getW(),m,weights);
@@ -72,10 +72,11 @@ CalcDists::CalcDists(const Input &inp) :
       }
 
       if (dt_skip>1)
-	traj.skip(dt_skip-1);
+	traj->skip(dt_skip-1);
     } //end of parallel for
     delete[] m;
     delete[] weights;
+    delete traj;
 
 #pragma omp critical
     {

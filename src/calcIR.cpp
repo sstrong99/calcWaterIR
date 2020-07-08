@@ -90,10 +90,10 @@ void CalcIR::loopSamples(const int nSample, const int step)
 void CalcIR::calcTCF(const int start,cpx* corr1)
 {
   //initialize
-  Traj traj(xtcfile.c_str());
-  traj.skip(start);
+  Traj *traj = Traj::getTraj(xtcfile);
+  traj->skip(start);
 
-  CalcW calcW(model,traj.getNatoms(),avgF);
+  CalcW calcW(model,traj->getNatoms(),avgF);
 
   IntegrateF *intF;
   if (integrator > 0)
@@ -112,7 +112,7 @@ void CalcIR::calcTCF(const int start,cpx* corr1)
   int ii;
   for (int tt=0; tt<nTCF; tt++) {
     //get next timestep of coords
-    if (traj.next()) {
+    if (traj->next()) {
       printf("ERROR: no more coordinates in file\n");
       exit(EXIT_FAILURE);
     }
@@ -135,7 +135,7 @@ void CalcIR::calcTCF(const int start,cpx* corr1)
     corr1[tt]=sumMFM(m0,m,F);
 
     if (dt_skip > 1)
-      traj.skip(dt_skip-1);
+      traj->skip(dt_skip-1);
   }
   maxInter/=nTCF;
   avgIntra/=nTCF;
@@ -145,6 +145,7 @@ void CalcIR::calcTCF(const int start,cpx* corr1)
   delete[] m;
   delete[] F;
   delete intF;
+  delete traj;
 }
 
 void CalcIR::calcFFT(cpx *y)
@@ -242,7 +243,7 @@ void CalcIR::printResults(string postfix) const {
 }
 
 void CalcIR::init() {
-  InitTraj traj(xtcfile.c_str());
+  InitTraj traj(xtcfile);
   dt_skip=traj.adjustTimestep(timestep);
   timestep=traj.getDT();  //this is the adjusted timestep, not the original
   nT=traj.getNT();

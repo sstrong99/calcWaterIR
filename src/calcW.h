@@ -15,7 +15,7 @@ class CalcW {
 public:
   CalcW(const int model,const int natoms,float avef=0.0);
   ~CalcW();
-  void compute(Traj &traj,rvec *m);
+  void compute(Traj *traj,rvec *m);
 
   int getNH() const {return nH;};
 
@@ -29,7 +29,7 @@ public:
   float avgIntraFreq() const;
 
 private:
-  void calcE(const Traj &traj);
+  void calcE(const Traj *traj);
   void mapE2W(rvec *m);
 
   inline void setNN(float *M, const float val, const int nn, const int mm)

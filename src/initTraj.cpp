@@ -1,19 +1,20 @@
 #include "initTraj.h"
 
-InitTraj::InitTraj(const char *xtcfile) {
+InitTraj::InitTraj(const string &trajfile) {
   printf("Reading trajectory file to find number of timesteps...\n");
-  Traj traj(xtcfile);
-  dt=traj.allT();
-  nT=traj.getNT();
-  model = traj.getModel();
+  Traj *traj = Traj::getTraj(trajfile);
+  dt=traj->allT();
+  nT=traj->getNT();
+  model = traj->getModel();
 
-  CalcW calcW(model,traj.getNatoms());
+  CalcW calcW(model,traj->getNatoms());
   nH=calcW.getNH();
 
   rvec *junk = new rvec[nH];
   calcW.compute(traj,junk);
   avgF = calcW.calcAveF();
   delete[] junk;
+  delete traj;
 }
 
 string InitTraj::modelString() {

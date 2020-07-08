@@ -70,10 +70,10 @@ void CalcIR_TAA::loopSamples(const int nSample, const int step)
 void CalcIR_TAA::calcAvg(const int start,float* spec1)
 {
   //initialize
-  Traj traj(xtcfile.c_str());
-  traj.skip(start);
+  Traj *traj = Traj::getTraj(xtcfile);
+  traj->skip(start);
 
-  CalcW calcW(model,traj.getNatoms(),0.0);
+  CalcW calcW(model,traj->getNatoms(),0.0);
 
   int nH2=nH*nH;
   rvec *m = new rvec[nH];
@@ -86,7 +86,7 @@ void CalcIR_TAA::calcAvg(const int start,float* spec1)
   //loop through time
   for (int tt=0; tt<nTavg; tt++) {
     //get next timestep of coords
-    if (traj.next()) {
+    if (traj->next()) {
       printf("ERROR: no more coordinates in file\n");
       exit(EXIT_FAILURE);
     }
@@ -102,7 +102,7 @@ void CalcIR_TAA::calcAvg(const int start,float* spec1)
       avgW[ii]+=calcW.getW()[ii];
 
     if (dt_skip > 1)
-      traj.skip(dt_skip-1);
+      traj->skip(dt_skip-1);
   }
   //printf("inter,intra= %.1f\t%.1f\n",maxInter,avgIntra);
 
@@ -120,7 +120,8 @@ void CalcIR_TAA::calcAvg(const int start,float* spec1)
   delete[] m;
   delete[] m0;
   delete[] avgW;
-
+  delete traj;
+  
   float *eig = new float[nH];
   for (ii=0; ii<nH; ii++)
     eig[ii]=diag.getEigenvalue(ii)/CM2PS;
@@ -152,7 +153,7 @@ void CalcIR_TAA::printResults(string postfix) const {
 
 void CalcIR_TAA::init(const float &Tavg) {
   //initialize trajectory variables
-  InitTraj traj(xtcfile.c_str());
+  InitTraj traj(xtcfile);
   dt_skip=traj.adjustTimestep(timestep);
   timestep=traj.getDT();
   nT=traj.getNT();

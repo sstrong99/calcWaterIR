@@ -57,6 +57,7 @@ ExactDiag::ExactDiag(int nH,const float &dt,const bool vecflag) :
   lwork=-1; liwork=-1;
   ssyevd_(&vec,&uplo,&nH,NULL,&nH,NULL,
 	  &tmpwork,&lwork,&tmpiwork,&liwork,&info);
+  warnflag=false;
 #endif
   //printf("lwork = %d\t liwork = %d\n",(myint) tmpwork,tmpiwork);
 
@@ -140,8 +141,11 @@ void ExactDiag::spdn(const float *wMat,const rvec *m,float *out_weights)
   delete[] tmpm_eb;
 #else
   //This function doesn't do anything if compiled without GPUs yet
-  printf("ERROR: Code has not been written to compute the spectral density without GPUs\n");
-  exit(EXIT_FAILURE);
+  if (!warnflag) { //TODO: make this only print on rank 0 node
+    printf("WARNING: Code has not been written to compute the spectral density without GPUs\n");
+    warnflag=true;
+    //exit(EXIT_FAILURE);
+  }
 #endif
 }
 

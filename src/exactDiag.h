@@ -65,6 +65,7 @@ private:
 #else
   char vec;
   char uplo;
+  bool warnflag;
 #endif
 };
 #endif

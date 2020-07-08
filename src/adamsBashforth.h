@@ -4,6 +4,8 @@
 #include "integrateF.h"
 #include "mycomplex.h"
 
+#include <vector>
+
 //integrate F matrix using Adams-Bashforth method
 using namespace std;
 class AdamsBashforth : public IntegrateF

@@ -8,7 +8,7 @@
 
 class InitTraj {
 public:
-  InitTraj(const char *xtcfile);
+  InitTraj(const string &trajfile);
   ~InitTraj() {};
 
   void printModel();

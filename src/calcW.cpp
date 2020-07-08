@@ -60,9 +60,9 @@ CalcW::~CalcW() {
   delete h2x;
 }
 
-void CalcW::compute(Traj &traj, rvec *m) {
+void CalcW::compute(Traj *traj, rvec *m) {
   if (moveMfrac != 0.0)
-    traj.moveM(moveMfrac,aPerM);
+    traj->moveM(moveMfrac,aPerM);
 
   calcE(traj);
 
@@ -72,12 +72,12 @@ void CalcW::compute(Traj &traj, rvec *m) {
 
 //This is slower than calcE, and only calculates the E-field at the H atom
 //not the dipole-dipole term
-void CalcW::calcE(const Traj &traj) {
+void CalcW::calcE(const Traj *traj) {
   float cut2=mymap->getcut2()*A0INV*A0INV;
   float Ddip=mymap->getDdip()*A0INV;
-  const rvec *x=traj.getCoords();
+  const rvec *x=traj->getCoords();
   rvec box;
-  traj.getBox(box);
+  traj->getBox(box);
   int ii;
   float tmpcut=2*mymap->getcut()*A0INV;
   //check that box is larger than 2*cutoff
