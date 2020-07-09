@@ -4,8 +4,8 @@
 #include "vecManip.h"
 
 #include <string>
-#include <cstdlib>
-#include <cstdio>
+//#include <cstdlib>
+//#include <cstdio>
 #include <cmath>
 
 #define A0INV 18.89726125    //inverse bohr radius (nm/a0)

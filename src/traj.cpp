@@ -3,6 +3,7 @@
 //must include these here, not in header, because otherwise Traj isn't defined
 //so children won't know what parent is
 #include "xtcTraj.h" 
+#include "groTraj.h"
 
 using namespace std;
 //factory method
@@ -16,10 +17,10 @@ Traj *Traj::getTraj(const string &filename) {
   string ext=filename.substr(extPos+1);
   if (ext.compare("xtc") == 0) {
     return new XTCTraj(filename.c_str());
-  //} else if (ext.compare("lammpstrj") == 0) {
-  //  return new lammpsTraj(filename);
-  //} else if (ext.compare("gro") == 0) {
-  //  return new groTraj(filename);
+//} else if (ext.compare("lammpstrj") == 0) {
+    //  return new lammpsTraj(filename);
+  } else if (ext.compare("gro") == 0) {
+    return new groTraj(filename);
   } else {
     printf("ERROR: trajectory extension \"%s\" is not supported\n",ext.c_str());
     exit(EXIT_FAILURE);
@@ -73,13 +74,13 @@ int Traj::getModel() const {
   int model;
   const float SPCEangle = 109.47;
   const float TIP4Pangle = 104.52;
-  const float angleTol = 0.1;
+  const float angleTol = 0.5;
   if ( fabs(angle - SPCEangle) < angleTol ) {
     model = 0;
   } else if ( fabs(angle - TIP4Pangle ) < angleTol ) {
     model = 1;
   } else {
-    printf("ERROR: bond angle does not match any known model.\n");
+    printf("ERROR: bond angle %f does not match any known model.\n",angle);
     exit(EXIT_FAILURE);
   }
 
@@ -99,8 +100,8 @@ int Traj::getModel() const {
     else if (fabs(dOM-dOM_2005) < dOMtol)
       model=2;
     else {
-    printf("ERROR: OM bond length does not match any known model.\n");
-    exit(EXIT_FAILURE);
+      printf("ERROR: OM bond length %f does not match any known model.\n",dOM);
+      exit(EXIT_FAILURE);
     }
   }
 
@@ -110,20 +111,20 @@ int Traj::getModel() const {
   const float dOHtol = 0.01; //in A0 units
   if (model == 0) {
     if (fabs(dOH1 - dOH_spce) > dOHtol ) {
-      printf("ERROR: OH bond length does not match SPC/E.\n");
+      printf("ERROR: OH bond length %f does not match SPC/E.\n",dOH1);
       exit(EXIT_FAILURE);
     }
     if (fabs(dOH2 - dOH_spce) > dOHtol ) {
-      printf("ERROR: OH bond length does not match SPC/E.\n");
+      printf("ERROR: OH bond length %f does not match SPC/E.\n",dOH2);
       exit(EXIT_FAILURE);
     }
   } else {
     if (fabs(dOH1 - dOH_t4p) > dOHtol ) {
-      printf("ERROR: OH bond length does not match TIP4P-type model.\n");
+      printf("ERROR: OH bond length %f does not match TIP4P-type model.\n",dOH1);
       exit(EXIT_FAILURE);
     }
     if (fabs(dOH2 - dOH_t4p) > dOHtol ) {
-      printf("ERROR: OH bond length does not match TIP4P-type model.\n");
+      printf("ERROR: OH bond length %f does not match TIP4P-type model.\n",dOH2);
       exit(EXIT_FAILURE);
     }
   }

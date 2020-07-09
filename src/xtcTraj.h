@@ -7,7 +7,6 @@
 #include <xdrfile_xtc.h>
 #include <xdrfile.h>
 #include <cstdlib>
-#include <vector>
 #include <cstdio>
 #include <cmath>
 

@@ -86,8 +86,9 @@ void Histogram::print(const char *filename) const {
   for (int ii=0; ii<N; ii++) sum+=counts[ii];
 
   if (sum==0.0) {
-    printf("ERROR: Attempting to print an empty histogram\n");
-    exit(EXIT_FAILURE);
+    printf("WARNING: Printing an empty histogram\n");
+    sum=1.0; //to prevent divide-by-zero
+    //exit(EXIT_FAILURE);
   }
 
   FILE *myfile = fopen(filename,"w");

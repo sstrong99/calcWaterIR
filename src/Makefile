@@ -25,7 +25,7 @@ GPULIBS = -lmagma -Xcompiler "-fopenmp" $(LIBS)
 
 #MMD and MP generate .d files
 OBJ_DIR = OBJ
-SRCS  = main.cpp traj.cpp xtcTraj.cpp calcIR.cpp integrateF.cpp adamsBashforth.cpp exactDiag.cpp timer.cpp histogram.cpp calcDists.cpp calcW.cpp initTraj.cpp input.cpp calcIR_TAA.cpp calculation.cpp
+SRCS  = main.cpp traj.cpp xtcTraj.cpp groTraj.cpp calcIR.cpp integrateF.cpp adamsBashforth.cpp exactDiag.cpp timer.cpp histogram.cpp calcDists.cpp calcW.cpp initTraj.cpp input.cpp calcIR_TAA.cpp calculation.cpp
 
 OBJS := $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
 DEPS := $(OBJS:%.o=%.d)

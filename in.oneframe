@@ -1,0 +1,2 @@
+calc 1    #0=IR, 1=dists, 2=TAA
+trajFile traj.gro
