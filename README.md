@@ -16,6 +16,9 @@ The input script is a list of key-value pairs. The keys are described below.
 The keys are required unless a default is listed, or specified otherwise.
 The "#" symbol is used for comments
 
+Alternatively, if two arguments are passed, those arguments are taken to be the arguments
+of the "calc" and "trajFile" keywords below, and all other keywords take their default values.
+
 * calc - specifies the type of calculation (default=0)
   * 0 - calculate the QM transition dipole autocorrelation function "exactly" (within the mixed quantum-classical approximation) by numerical integration of the Schroedinger equation (NISE)
   * 1 - calculate the distribution of eigenfrequencies

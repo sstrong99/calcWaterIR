@@ -1,9 +1,24 @@
 #include "input.h"
 
-Input::Input(const string &inputfile) : outPostfix(""),intMethod(0),nSample(-1),
-					timestep(0.0),avgF(0.0),nTCF(0),
-					whichCalc(0),T1(0.26),Tavg(0.076)
+Input::Input(int argc, const char *argv[]) :
+  outPostfix(""),intMethod(0),nSample(-1),timestep(0.0),avgF(0.0),nTCF(0),
+  whichCalc(0),T1(0.26),Tavg(0.076)
 {
+  if (argc == 1)
+    readInputFile("in.spec");
+  else if (argc == 2)
+    readInputFile(argv[1]);
+  else if (argc == 3) {
+    string tmp(argv[1]);
+    whichCalc = stoi(tmp);
+    trajFile = string(argv[2]);
+  } else {
+    printf("ERROR: too many arguments\n");
+    exit(EXIT_FAILURE);
+  }
+}
+
+void Input::readInputFile(const string &inputfile) {
   ifstream file(inputfile);
   if (!file.good()) {
     printf("ERROR: Input file %s cannot be read.\n",inputfile.c_str());

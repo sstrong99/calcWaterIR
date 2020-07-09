@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <cstdlib>
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -8,9 +9,10 @@
 using namespace std;
 class Input {
 public:
-  Input(const string &inputfile);
+  Input(int argc, const char *argv[]);
   ~Input() {};
 
+  void readInputFile(const string &inputfile);
   string getTrajFile() const {return trajFile;};
   string getOutPostfix() const {return outPostfix;};
   int getIntMethod() const {return intMethod;};

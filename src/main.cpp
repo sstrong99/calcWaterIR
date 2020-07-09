@@ -14,10 +14,7 @@
 //using namespace std;
 int main(int argc, const char *argv[])
 {
-  string inputfile="in.spec";
-  if (argc == 2)
-    inputfile=argv[1];
-  Input input(inputfile);
+  Input input(argc,argv);
 
   //TODO: make Traj class flexible to read lammps input
   Timer time_entire;
