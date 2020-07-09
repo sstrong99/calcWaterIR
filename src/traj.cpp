@@ -94,7 +94,7 @@ int Traj::getModel() const {
 
     const float dOM_t4p=0.015*A0INV;
     const float dOM_2005=0.01546*A0INV;
-    const float dOMtol = 0.001; //in A0 units
+    const float dOMtol = 0.01; //in A0 units
     if (fabs(dOM-dOM_t4p) < dOMtol)
       model=1;
     else if (fabs(dOM-dOM_2005) < dOMtol)
