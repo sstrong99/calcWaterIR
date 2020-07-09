@@ -74,7 +74,7 @@ int Traj::getModel() const {
   int model;
   const float SPCEangle = 109.47;
   const float TIP4Pangle = 104.52;
-  const float angleTol = 0.5;
+  const float angleTol = 0.7;
   if ( fabs(angle - SPCEangle) < angleTol ) {
     model = 0;
   } else if ( fabs(angle - TIP4Pangle ) < angleTol ) {
