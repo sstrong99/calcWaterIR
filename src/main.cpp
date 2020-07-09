@@ -5,12 +5,9 @@
     @author Steven E. Strong
 */
 #include "calculation.h"
-#include "calcIR.h"
-#include "calcDists.h"
-#include "calcIR_TAA.h"
+
 #include "timer.h"
 #include "input.h"
-
 #include <cstdio>
 #include <string>
 
@@ -26,15 +23,7 @@ int main(int argc, const char *argv[])
   Timer time_entire;
 
   //perform calculation, according to whichCalc
-  Calculation *mycalc;
-  switch(input.getWhichCalc()) {
-  case 0 : mycalc = new CalcIR(input); break;
-  case 1 : mycalc = new CalcDists(input); break;
-  case 2 : mycalc = new CalcIR_TAA(input); break;
-  default :
-    printf("ERROR: calc keyword accepts 0=IR,1=dists,2=TAA\n");
-    return EXIT_FAILURE;
-  }
+  Calculation *mycalc = Calculation::createCalc(input);
   mycalc->printResults(input.getOutPostfix());
   delete mycalc;
 

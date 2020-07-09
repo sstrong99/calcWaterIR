@@ -23,7 +23,7 @@ public:
   void printResults(string postfix) const;
 
 private:
-  void loopSamples();
+  //void loopSamples();
   Histogram Pu_tot,Pc_tot,spdn_tot,Pintra_tot;
 };
 #endif

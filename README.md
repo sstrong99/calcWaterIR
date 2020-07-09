@@ -20,6 +20,7 @@ The "#" symbol is used for comments
   * 0 - calculate the QM transition dipole autocorrelation function "exactly" (within the mixed quantum-classical approximation) by numerical integration of the Schroedinger equation (NISE)
   * 1 - calculate the distribution of eigenfrequencies
   * 2 - calculate the spectrum using the time-averaging approximation (TAA), see e.g. [Auer&Skinner JCP 2008](https://aip.scitation.org/doi/10.1063/1.2925258)
+  * 3 - calculate and print the local frequencies and transition dipole magnitudes for each oscillator at each timestep
 * trajFile - name of the file with the molecular dynamics trajectory
 * outPostfix - postfix for output files defaults to no postfix
 * intMethod - method for integrating. Only used forcalc=0. (default=0)

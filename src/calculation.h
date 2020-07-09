@@ -7,7 +7,7 @@
 
 class Calculation {
 public:
-  Calculation() {};
+  static Calculation *createCalc(const Input &inp);
   virtual ~Calculation() {};
   virtual void printResults(string postfix) const = 0;
 

@@ -1,5 +1,28 @@
 #include "calculation.h"
 
+//must include these here, not in header, because otherwise Traj isn't defined
+//so children won't know what parent is
+#include "calcIR.h"
+#include "calcDists.h"
+#include "calcIR_TAA.h"
+#include "calcLocal.h"
+
+Calculation *Calculation::createCalc(const Input &inp) {
+  int whichCalc = inp.getWhichCalc();
+  if (whichCalc==0)
+    return new CalcIR(inp);
+  else if (whichCalc==1)
+    return new CalcDists(inp);
+  else if (whichCalc==2)
+    return new CalcIR_TAA(inp);
+  else if (whichCalc==3)
+    return new CalcLocal(inp);
+  else {
+    printf("ERROR: calc keyword accepts 0=IR,1=dists,2=TAA,3=localFreqs\n");
+    exit(EXIT_FAILURE);
+  }
+}
+
 int Calculation::getNsample(const int trajL,const int tsL,int &nSample) {
   //for a trajectory of length trajL and a timeseries of length tsL
   //find the number of samples given the requested nSample
