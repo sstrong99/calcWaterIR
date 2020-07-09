@@ -100,7 +100,7 @@ int Traj::getModel() const {
     else if (fabs(dOM-dOM_2005) < dOMtol)
       model=2;
     else {
-      printf("ERROR: OM bond length %f does not match any known model.\n",dOM);
+      printf("ERROR: OM bond length %f does not match any known model.\n",dOM/A0INV);
       exit(EXIT_FAILURE);
     }
   }
@@ -108,23 +108,23 @@ int Traj::getModel() const {
   //float check OH bond length
   const float dOH_spce = 0.1*A0INV;
   const float dOH_t4p = 0.09572*A0INV;
-  const float dOHtol = 0.01; //in A0 units
+  const float dOHtol = 0.015; //in A0 units
   if (model == 0) {
     if (fabs(dOH1 - dOH_spce) > dOHtol ) {
-      printf("ERROR: OH bond length %f does not match SPC/E.\n",dOH1);
+      printf("ERROR: OH bond length %f does not match SPC/E.\n",dOH1/A0INV);
       exit(EXIT_FAILURE);
     }
     if (fabs(dOH2 - dOH_spce) > dOHtol ) {
-      printf("ERROR: OH bond length %f does not match SPC/E.\n",dOH2);
+      printf("ERROR: OH bond length %f does not match SPC/E.\n",dOH2/A0INV);
       exit(EXIT_FAILURE);
     }
   } else {
     if (fabs(dOH1 - dOH_t4p) > dOHtol ) {
-      printf("ERROR: OH bond length %f does not match TIP4P-type model.\n",dOH1);
+      printf("ERROR: OH bond length %f does not match TIP4P-type model.\n",dOH1/A0INV);
       exit(EXIT_FAILURE);
     }
     if (fabs(dOH2 - dOH_t4p) > dOHtol ) {
-      printf("ERROR: OH bond length %f does not match TIP4P-type model.\n",dOH2);
+      printf("ERROR: OH bond length %f does not match TIP4P-type model.\n",dOH2/A0INV);
       exit(EXIT_FAILURE);
     }
   }
