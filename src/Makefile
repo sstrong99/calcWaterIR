@@ -6,7 +6,7 @@ CXX     = g++
 NVCC    = nvcc
 
 HOST=$(firstword $(subst -, ,$(shell hostname)))
-ifeq ($(HOST),midway)
+ifeq ($(HOST),midway2)
 	SOFTDIR=/home/strong1/install
 else
 	SOFTDIR=/usr/local
