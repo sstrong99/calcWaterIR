@@ -69,12 +69,15 @@ int Traj::getModel() const {
   multRvec(OH1,1.0/dOH1);
   multRvec(OH2,1.0/dOH2);
 
+  //the below comparisons need high tolerances for the low precision .gro files
+
   //distinguish between 3-site and 4-site
   float angle = acos(dot(OH1,OH2))*180/PI;
   int model;
   const float SPCEangle = 109.47;
   const float TIP4Pangle = 104.52;
-  const float angleTol = 0.7;
+  const float angleTol = 1.5;
+  //printf("angle = %f\nOH1 = %f\nOH2 = %f\n",angle,dOH1,dOH2);
   if ( fabs(angle - SPCEangle) < angleTol ) {
     model = 0;
   } else if ( fabs(angle - TIP4Pangle ) < angleTol ) {
@@ -91,10 +94,10 @@ int Traj::getModel() const {
     addRvec(M,O,OM,-1);
     pbc(OM,box);
     float dOM=sqrt(norm2vec(OM));
-
+    //printf("OM = %f\n",dOM);
     const float dOM_t4p=0.015*A0INV;
     const float dOM_2005=0.01546*A0INV;
-    const float dOMtol = 0.01; //in A0 units
+    const float dOMtol = 0.02*A0INV;
     if (fabs(dOM-dOM_t4p) < dOMtol)
       model=1;
     else if (fabs(dOM-dOM_2005) < dOMtol)
@@ -108,7 +111,7 @@ int Traj::getModel() const {
   //float check OH bond length
   const float dOH_spce = 0.1*A0INV;
   const float dOH_t4p = 0.09572*A0INV;
-  const float dOHtol = 0.015; //in A0 units
+  const float dOHtol = 0.002*A0INV;
   if (model == 0) {
     if (fabs(dOH1 - dOH_spce) > dOHtol ) {
       printf("ERROR: OH bond length %f does not match SPC/E.\n",dOH1/A0INV);
